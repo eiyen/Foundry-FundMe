@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import "forge-std/Test.sol";
-import "../../src/FundMe.sol";
-import "../../script/FundMe.s.sol";
+import {Test} from "forge-std/Test.sol";
+import {FundMe} from "../../src/FundMe.sol";
+import {FundMeScript} from "../../script/FundMe.s.sol";
 
 contract FundMeTest is Test {
     FundMe fundMe;
