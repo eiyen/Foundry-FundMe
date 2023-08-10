@@ -7,7 +7,7 @@ import {FundMeScript} from "../../script/FundMe.s.sol";
 
 contract FundMeTest is Test {
     FundMe fundMe;
-    address immutable USER = makeAddr("Corror");
+    address immutable USER = makeAddr("Corror"); // 为什么这里改用 constant 会报错？
     uint256 constant TRANSFER_AMOUNT = 10 ether;
     uint256 constant ZERO_BALANCE = 0 ether;
 
@@ -95,8 +95,8 @@ contract FundMeTest is Test {
     function testCheaperWithdrawMultipulFunds() public {
         uint160 fundersAmount = 10;
         uint160 initialFunderIndex = 1;
-        for ( uint160 fundersIndex=initialFunderIndex; fundersIndex<=fundersAmount; fundersIndex++) {
-            hoax(address(fundersIndex));
+        for ( uint160 funderIndex=initialFunderIndex; funderIndex<=fundersAmount; funderIndex++) {
+            hoax(address(funderIndex));
             fundMe.fund{value: TRANSFER_AMOUNT}();
         }
 
