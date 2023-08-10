@@ -33,33 +33,35 @@ contract FundMe {
     
     function withdraw() public onlyOwner {
         for (
-            uint256 fundersIndex=0; 
-            fundersIndex < s_funders.length; 
-            fundersIndex++
+            uint256 funderIndex=0; 
+            funderIndex < s_funders.length; 
+            funderIndex++
         ){
-            address funder = s_funders[fundersIndex];
+            address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
 
-        (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
-        require(callSuccess, "Call failed");
+        // call 的用法是什么？它的返回值是什么？
+        (bool success, ) = payable(msg.sender).call{value: address(this).balance}("");
+        require(success, "Call failed");
     }
 
     function cheaperWithdraw() public onlyOwner {
         uint256 fundersAmount = s_funders.length;
+        address[] memory funders = s_funders;
         for (
-            uint256 fundersIndex=0; 
-            fundersIndex < fundersAmount; 
-            fundersIndex++
+            uint256 funderIndex=0; 
+            funderIndex < fundersAmount; 
+            funderIndex++
         ){
-            address funder = s_funders[fundersIndex];
+            address funder = funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
 
-        (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
-        require(callSuccess, "Call failed");
+        (bool success, ) = payable(msg.sender).call{value: address(this).balance}("");
+        require(success, "Call failed");
     }
 
     /* Getter Functions */
