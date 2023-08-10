@@ -11,11 +11,6 @@ contract FundMeTest is Test {
     uint256 constant TRANSFER_AMOUNT = 10 ether;
     uint256 constant ZERO_BALANCE = 0 ether;
 
-    function setUp() public {
-        FundMeScript fundMeScript = new FundMeScript();
-        fundMe = fundMeScript.run();
-    }
-
     modifier funded() {
         // hoax 是一个 CheetCode, 它相当于两个命令：
         // 1. vm.prank(USER); 假装下一个交易是 USER 发起的
@@ -23,6 +18,11 @@ contract FundMeTest is Test {
         hoax(USER);
         fundMe.fund{value: TRANSFER_AMOUNT}();
         _;
+    }
+
+    function setUp() public {
+        FundMeScript fundMeScript = new FundMeScript();
+        fundMe = fundMeScript.run();
     }
 
     function testMINIMUM_USD() public {
@@ -89,6 +89,20 @@ contract FundMeTest is Test {
         fundMe.withdraw();
 
         // 断言：Assert
+        assertEq(fundMe.getOwner().balance, fundersAmount * TRANSFER_AMOUNT);
+    }
+
+    function testCheaperWithdrawMultipulFunds() public {
+        uint160 fundersAmount = 10;
+        uint160 initialFunderIndex = 1;
+        for ( uint160 fundersIndex=initialFunderIndex; fundersIndex<=fundersAmount; fundersIndex++) {
+            hoax(address(fundersIndex));
+            fundMe.fund{value: TRANSFER_AMOUNT}();
+        }
+
+        hoax(fundMe.getOwner(), 0);
+        fundMe.cheaperWithdraw();
+
         assertEq(fundMe.getOwner().balance, fundersAmount * TRANSFER_AMOUNT);
     }
 }
