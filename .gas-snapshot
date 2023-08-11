@@ -1,4 +1,4 @@
-FundMeTest:testCheaperWithdrawMultipulFunds() (gas: 484570)
+FundMeTest:testCheaperWithdrawMultipulFunds() (gas: 484426)
 FundMeTest:testFundPushFunderOnSuccess() (gas: 97923)
 FundMeTest:testFundRevertWithBelowMinimumTransactionAmount() (gas: 23824)
 FundMeTest:testFundUpdatesAmountFundedOnSuccess() (gas: 97515)

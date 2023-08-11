@@ -76,10 +76,14 @@ contract FundMeTest is Test {
         // 准备: Arrange
         uint160 fundersAmount = 10;
         uint160 initialFunderIndex = 1;
-        for ( uint160 fundersIndex=initialFunderIndex; fundersIndex<=fundersAmount; fundersIndex++) {
+        for ( 
+            uint160 funderIndex=initialFunderIndex; 
+            funderIndex<=fundersAmount; 
+            funderIndex++
+        ) {
             // uint160 包含 160 位，和地址的位数相同，可以被编译器进行类型转换。
             // funderIndex 初始值为 1 而非 0，防止处理 address(0) 时自动回滚。
-            hoax(address(fundersIndex));
+            hoax(address(funderIndex));
             fundMe.fund{value: TRANSFER_AMOUNT}();
         }
 
@@ -95,7 +99,11 @@ contract FundMeTest is Test {
     function testCheaperWithdrawMultipulFunds() public {
         uint160 fundersAmount = 10;
         uint160 initialFunderIndex = 1;
-        for ( uint160 funderIndex=initialFunderIndex; funderIndex<=fundersAmount; funderIndex++) {
+        for ( 
+            uint160 funderIndex=initialFunderIndex; 
+            funderIndex<=fundersAmount; 
+            funderIndex++
+        ) {
             hoax(address(funderIndex));
             fundMe.fund{value: TRANSFER_AMOUNT}();
         }
